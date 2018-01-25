@@ -10,6 +10,9 @@ class Statement(object):
     def __mul__(self, other):
         return AndStatement(self, other)
 
+    def __gt__(self, other):
+        return ImpliesStatement(self, other)
+
     def discover_variables(self):
         if isinstance(self, Variable):
             return [self]
@@ -30,6 +33,15 @@ class OrStatement(Statement):
 
     def get_value(self):
         return self.left.get_value() or self.right.get_value()
+
+
+class ImpliesStatement(Statement):
+
+    def __str__(self):
+        return str(self.left) + " → " + str(self.right)
+
+    def get_value(self):
+        return not self.left.get_value() or (self.left.get_value() and self.right.get_value())
 
 
 class Variable(Statement):
