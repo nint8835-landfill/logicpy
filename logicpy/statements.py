@@ -15,9 +15,9 @@ class Statement(object):
 
     def discover_variables(self):
         if isinstance(self, Variable):
-            return [self]
+            return {self}
         else:
-            return self.left.discover_variables() + self.right.discover_variables()
+            return self.left.discover_variables() | self.right.discover_variables()
 
     def get_value(self):
         return True
