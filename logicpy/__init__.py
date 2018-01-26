@@ -1,1 +1,1 @@
-from .statements import Variable
+from .statements import Variable, Not

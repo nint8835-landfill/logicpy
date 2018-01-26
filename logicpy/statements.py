@@ -65,3 +65,15 @@ class Variable(Statement):
 
     def get_value(self):
         return self.value
+
+
+class Not(Statement):
+
+    def __init__(self, left):
+        super().__init__(left, left)
+
+    def __str__(self):
+        return "¬{}".format(str(self.left))
+
+    def get_value(self):
+        return not self.left.get_value()
