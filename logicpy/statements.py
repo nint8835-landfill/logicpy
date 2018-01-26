@@ -25,11 +25,17 @@ class Statement(object):
 
 class AndStatement(Statement):
 
+    def __str__(self):
+        return "({} ∧ {})".format(str(self.left), str(self.right))
+
     def get_value(self):
         return self.left.get_value() and self.right.get_value()
 
 
 class OrStatement(Statement):
+
+    def __str__(self):
+        return "({} ∨ {})".format(str(self.left), str(self.right))
 
     def get_value(self):
         return self.left.get_value() or self.right.get_value()
@@ -38,7 +44,7 @@ class OrStatement(Statement):
 class ImpliesStatement(Statement):
 
     def __str__(self):
-        return str(self.left) + " → " + str(self.right)
+        return "({} → {})".format(str(self.left), str(self.right))
 
     def get_value(self):
         return not self.left.get_value() or (self.left.get_value() and self.right.get_value())
@@ -50,6 +56,9 @@ class Variable(Statement):
         super().__init__()
         self.name = name
         self.value = False
+
+    def __str__(self):
+        return self.name
 
     def set_value(self, new_value):
         self.value = new_value
