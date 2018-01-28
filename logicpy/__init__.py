@@ -1,1 +1,1 @@
-from .statements import Variable, Not
+from .statements import Variable, Not, TruthTable

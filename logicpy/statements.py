@@ -1,3 +1,6 @@
+import itertools
+
+
 class Statement(object):
 
     def __init__(self, left=None, right=None):
@@ -77,3 +80,50 @@ class Not(Statement):
 
     def get_value(self):
         return not self.left.get_value()
+
+
+class TruthTable(object):
+
+    def __init__(self, statement):
+        self.statement = statement  # type: Statement
+
+    def get_potential_variable_states(self):
+        variables = self.statement.discover_variables()
+        combos = []
+
+        for i in range(len(variables)):
+            combos += itertools.combinations(variables, i+1)
+            
+        states = [{var.name: False for var in variables}]
+
+        for combo in combos:
+            state = {}
+
+            for var in combo:
+                state[var.name] = True
+
+            for var in variables:
+                if var.name not in state:
+                    state[var.name] = False
+
+            states.append(state)
+        return states
+
+    def set_variable_states(self, states):
+        variables = self.statement.discover_variables()
+
+        for state in states:
+            for variable in variables:
+                if variable.name == state:
+                    variable.set_value(states[state])
+
+    def generate_states(self):
+        states = []
+
+        for state in self.get_potential_variable_states():
+
+            self.set_variable_states(state)
+            state["result"] = self.statement.get_value()
+            states.append(state)
+
+        return states
